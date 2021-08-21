@@ -32,12 +32,42 @@
                 <input id="search" placeholder="Search for books here... " class="form-control"  >
                 <button id="search-btn" class="col-2 btn btn-primary">Search</button>
             </div>
-            <div id="search-results"></div>
-        </div>
-    </div>
+                <ul id="search-results" class="mt-5 d-flex flex-column align-items-center justify-content-center list-group">
+                    <li class="col-10 list-group-item">
+                        <div class="row">
+                            <div class="d-flex align-items-center col-12">
+                                <img class="me-4" src="http://books.google.com/books/content?id=W9BJAAAAYAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api" alt="">
+                                <a href="" class=" me-auto text-decoration-none">
+                                    <div class="h3">Book Title Here</div>
+                                </a>
+                                <div class="btn-group dropup">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Actions
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Preview</a></li>
+                                        <li><a class="dropdown-item" href="#">Add to wish list</a></li>
+                                        <li><a class="dropdown-item" href="#">Add to My Books</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                                <div class="d-flex justify-content-around offset-1 ">
+                                    <div>author</div>
+                                    <div>year</div>
+                                    <div>publisher</div>
+                                </div>
+                    
+                    </li>
+                </ul>
+            </div>
     
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
 <script src="app.js"></script>
+<script type="text/javascript" src="//books.google.com/books/previewlib.js"></script>
+<script type="text/javascript">
+GBS_insertEmbeddedViewer('ISBN:0738531367',600,500);
+</script>
 </body>
 </html>
