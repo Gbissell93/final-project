@@ -36,46 +36,40 @@ const fetchBooks = () => {
             }
             
             //use results array to create li elements
-            results.forEach((el) => {
+            results.forEach((el, index) => {
                 //create li
               const li = document.createElement('li');
               li.setAttribute('class', 'col-8 list-group-item')
-              //create anchor tag
-            //   const a = document.createElement('a');
-            //   a.setAttribute('class', 'text-center text-decoration-none');
-            //   //create title text 
-            //   const title = document.createElement('h3');
-            //   title.innerHTML = bookItem.title;
-            //   //include book cover image
-            //   const img = document.createElement('img');
-            //   img.setAttribute('src', bookItem.imageLinks.thumbnail)
-
+           
                 //html templet for each book item
              li.innerHTML = `
-        <div class="row">
-            <div class="d-flex align-items-center col-12">
-                <img class="flex-shrink-1 d-md-block d-sm-none  me-4" src="${el.imageLinks.thumbnail}" alt="">
-                <a href="" class="flex-shrink-1 me-auto text-decoration-none">
-                    <div class="h3">${el.title}</div>
-                </a>
-                <div class="flex-shrink-1 btn-group dropup">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    Actions
-                    </button>
-                    <ul class="dropdown-menu">
-                    <li><a class="preview dropdown-item" href="#">Preview</a></li>
-                    <li><a class="wish dropdown-item" href="#">Add to wish list</a></li>
-                    <li><a class="my-books dropdown-item" href="#">Add to My Books</a></li>
-                    </ul>
-                </div>
-            </div>
-         </div>
-                <div class="d-flex justify-content-around">
-                <div class=" fw-lighter fs-6 ">by ${el.authors}</div>
-                <div class=" fw-lighter fs-6>${el.publisher}</div>
-                <div class=" fw-lighter fs-6>${el.publishedDate}</div>
-            </div>`
-            
+                            <div class="row">
+                                <div class="d-flex align-items-center col-12">
+                                    <img class="flex-shrink-1 d-md-block d-sm-none  me-4" src="${el.imageLinks.thumbnail}" alt="">
+                                    <div class="">
+                                    <a href="" class=" me-auto text-decoration-none">
+                                        <div class="h3">${el.title}</div>
+                                    </a>
+                                    <div class=" fw-lighter fs-6 ">by ${el.authors}</div>
+                                    <div class=" fw-lighter fs-6>${el.publisher}</div>
+                                    <div class=" fw-lighter fs-6>${el.publishedDate}</div>
+                                    <div class=" btn-group dropend">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Actions
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                        <li><a class="preview dropdown-item" href="#">Preview</a></li>
+                                        <li><a class="wish dropdown-item" href="#">Add to wish list</a></li>
+                                        <li><a class="my-books dropdown-item" href="#">Add to My Books</a></li>
+                                        </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                                  
+                                `
+
             //append li to results element
          searchResults.appendChild(li)
 
@@ -90,7 +84,7 @@ const fetchBooks = () => {
            
             const addToList = (e) => {
                 myList.push(e.target)
-                console.log(myList)
+                console.log(myList) 
             }
             myBooks.forEach((el) => el.addEventListener('click', addToList))
    
