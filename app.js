@@ -31,6 +31,8 @@ function clearList() {
 function updateList() {
   dt++;
   const newBook = myList[myList.length - 1];
+  const isbn = newBook.industryIdentifiers[1].identifier;
+  const previewURL = `book.html?isbn=` + isbn;
   console.log("new book", newBook);
   const div = document.createElement("div");
   div.setAttribute("class", "list-group-item border-0");
@@ -48,7 +50,7 @@ function updateList() {
             <div class="d-flex flex-column justify-content-center mt-5 ms-2">
             <div class="mb-1">${newBook.authors}</div>
             <div>${newBook.publishedDate.toLocaleString("en-US")}</div>
-            <div class="mt-3"><a href="book.html">Preview</a></div>
+            <div class="mt-3"><a target="_blank" href="${previewURL}">Preview</a></div>
             </div>
             </div>
         </div>
