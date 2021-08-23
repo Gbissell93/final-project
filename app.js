@@ -30,13 +30,16 @@ const fetchBooks = () => {
         })
         //loop through data and populate results array
         .then((data) => {
-           for (let i = 0; i < data.items.length; i++) {
-                const bookItem = data.items[i].volumeInfo;
-                results.push(bookItem)
-            }
+            data.items.forEach(element => {
+                results.push(element.volumeInfo)
+                // console.log(results)
+            } )
             
             //use results array to create li elements
-            results.forEach((el, index) => {
+            
+            for (let i = 0; i < results.length; i++) {
+                let currItem = results[i];
+                console.log(currItem)
                 //create li
               const li = document.createElement('li');
               li.setAttribute('class', 'col-8 list-group-item')
@@ -45,20 +48,20 @@ const fetchBooks = () => {
              li.innerHTML = `
                             <div class="row">
                                 <div class="d-flex align-items-center col-12">
-                                    <img class="flex-shrink-1 d-md-block d-sm-none  me-4" src="${el.imageLinks.thumbnail}" alt="">
+                                    <img class="flex-shrink-1 d-md-block d-sm-none  me-4" src="${currItem.imageLinks.thumbnail}" alt="">
                                     <div class="">
-                                    <a href="" class=" me-auto text-decoration-none">
-                                        <div class="h3">${el.title}</div>
+                                    <a href="${currItem.infoLink}" class=" me-auto text-decoration-none">
+                                        <div class="h3">${currItem.title}</div>
                                     </a>
-                                    <div class=" fw-lighter fs-6 ">by ${el.authors}</div>
-                                    <div class=" fw-lighter fs-6>${el.publisher}</div>
-                                    <div class=" fw-lighter fs-6>${el.publishedDate}</div>
+                                    <div class=" fw-lighter fs-6 ">by ${currItem.authors}</div>
+                                    <div class=" fw-lighter fs-6>${currItem.publisher}</div>
+                                    <div class=" fw-lighter fs-6>${currItem.publishedDate}</div>
                                     <div class=" btn-group dropend">
                                         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                         Actions
                                         </button>
                                         <ul class="dropdown-menu">
-                                        <li><a class="preview dropdown-item" href="#">Preview</a></li>
+                                        <li><a class="preview dropdown-item" href="${currItem.previewLink}">Preview</a></li>
                                         <li><a class="wish dropdown-item" href="#">Add to wish list</a></li>
                                         <li><a class="my-books dropdown-item" href="#">Add to My Books</a></li>
                                         </ul>
@@ -76,17 +79,30 @@ const fetchBooks = () => {
             //selectors for newly created elements
       
          //event listeners for each wish and myBooks element
-     
-            })
+       
+            }
             const myBooks = document.querySelectorAll('.my-books');
             const wish = document.querySelectorAll('.wish')
             
            
-            const addToList = (e) => {
-                myList.push(e.target)
-                console.log(myList) 
+            const test = (e) => {
+               for (let i = 0; i < results.length; i++) {
+                   if (e.target.index === i) {
+                       myList.push(results[i])
+                   }
+                   console.log(myList)
+               }
+                 
+                   console.log(e.target.index)
             }
-            myBooks.forEach((el) => el.addEventListener('click', addToList))
+            
+             myBooks.forEach((el, index) => {
+                 el.addEventListener('click', test)
+                 let count = 0;
+                 count ++
+                 el.index = index
+                 
+                })
    
         })}
 }
