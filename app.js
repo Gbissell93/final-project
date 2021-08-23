@@ -10,7 +10,58 @@ let results = [];
 
 
 
+//Check page for local storage then populate myList
+const storedList = JSON.parse(localStorage.getItem('myList'))
+
+if (storedList) {
+    storedList.forEach(element => {
+        myList.push(element)
+        updateList()
+    })
+}
+
 //Functions
+function updateList (){
+    dt++
+    const newBook = myList[myList.length-1]
+    console.log('new book', newBook)
+    const div = document.createElement('div')
+    div.setAttribute('class', 'list-group-item border-0')
+    div.innerHTML = ` 
+    <div class="accordion">
+        <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${dt}" aria-expanded="false" aria-controls="collapse-${dt}">
+            ${newBook.title}
+            </button>
+        </h2>
+        <div id="collapse-${dt}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body d-flex justify-content-start">
+            <img src="${newBook.imageLinks.thumbnail}">
+            <div class="d-flex flex-column justify-content-center mt-5 ms-2">
+            <div class="mb-1">${newBook.authors}</div>
+            <div>${newBook.publishedDate.toLocaleString('en-US',)}</div>
+            <div class="mt-3"><a href="book.html">Preview</a></div>
+            </div>
+            </div>
+        </div>
+        </div>
+</div>`
+
+sideList.appendChild(div)
+
+//store new array in local storage
+localStorage.setItem('myList', JSON.stringify(myList))
+
+
+}
+
+
+
+
+
+
+
 const fetchBooks = () => {
     //empty results array on function call
     results = [];
@@ -34,6 +85,7 @@ const fetchBooks = () => {
             data.items.forEach(element => {
                 results.push(element.volumeInfo)
                 // console.log(results)
+                console.log(element)
             } )
             
             //use results array to create li elements
@@ -42,8 +94,10 @@ const fetchBooks = () => {
                 let currItem = results[i];
 
                 //create url for preview viewer
-                const isbn = currItem.industryIdentifiers.identifier[1]
+                if (currItem.industryIdentifiers) {
+                const isbn = currItem.industryIdentifiers[1].identifier
                 const previewURL = `book.html?isbn=`+isbn
+                
                 console.log('preview', previewURL)
 
                 //create li
@@ -54,7 +108,7 @@ const fetchBooks = () => {
              li.innerHTML = `
                             <div class="row">
                                 <div class="d-flex align-items-center col-12">
-                                    <img class="flex-shrink-1 d-md-block d-sm-none  me-4" src="${currItem.imageLinks.thumbnail}" alt="">
+                                    <a href="${currItem.infoLink}"><img class="flex-shrink-1 d-md-block d-sm-none  me-4" src="${currItem.imageLinks.thumbnail}" alt=""></a>
                                     <div class="">
                                     <a href="${currItem.infoLink}"  target="_blank" class=" me-auto text-decoration-none">
                                         <div class="h3">${currItem.title}</div>
@@ -85,7 +139,7 @@ const fetchBooks = () => {
       
          //event listeners for each wish and myBooks element
        
-            }
+            }}
             const myBooks = document.querySelectorAll('.my-books');
             const wish = document.querySelectorAll('.wish')
             
@@ -102,40 +156,7 @@ const fetchBooks = () => {
             }
 
 
-            const updateList = () => {
-                    dt++
-                    const newBook = myList[myList.length-1]
-                    console.log('new book', newBook)
-                    const div = document.createElement('div')
-                    div.setAttribute('class', 'list-group-item border-0')
-                    div.innerHTML = ` 
-                    <div class="accordion">
-                        <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${dt}" aria-expanded="false" aria-controls="collapse-${dt}">
-                            ${newBook.title}
-                            </button>
-                        </h2>
-                        <div id="collapse-${dt}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                            <div class="accordion-body d-flex justify-content-start">
-                            <img src="${newBook.imageLinks.thumbnail}">
-                            <div class="d-flex flex-column justify-content-center mt-5 ms-2">
-                            <div class="mb-1">${newBook.authors}</div>
-                            <div>${newBook.publishedDate.toLocaleString('en-US',)}</div>
-                            <div class="mt-3"><a href="book.html">Preview</a></div>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                </div>`
-                
-                sideList.appendChild(div)
-
-                //store new array in local storage
-                localStorage.setItem('myList', JSON.stringify(myList))
-                
-
-            }
+           
             
              myBooks.forEach((el, index) => {
                  el.addEventListener('click', test)
@@ -149,3 +170,4 @@ const fetchBooks = () => {
 
 //event listeners 
 searchBtn.addEventListener('click', fetchBooks)
+
