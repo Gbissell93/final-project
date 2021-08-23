@@ -3,8 +3,8 @@
 const search = document.querySelector('#search');
 const searchBtn = document.querySelector('#search-btn');
 const searchResults = document.querySelector('#search-results');
+const sideList = document.querySelector('#my-list');
 const myList = [];
-const wishList = [];
 let results = []
 
 
@@ -50,7 +50,7 @@ const fetchBooks = () => {
                                 <div class="d-flex align-items-center col-12">
                                     <img class="flex-shrink-1 d-md-block d-sm-none  me-4" src="${currItem.imageLinks.thumbnail}" alt="">
                                     <div class="">
-                                    <a href="${currItem.infoLink}" class=" me-auto text-decoration-none">
+                                    <a href="${currItem.infoLink}"  target="_blank" class=" me-auto text-decoration-none">
                                         <div class="h3">${currItem.title}</div>
                                     </a>
                                     <div class=" fw-lighter fs-6 ">by ${currItem.authors}</div>
@@ -90,10 +90,42 @@ const fetchBooks = () => {
                    if (e.target.index === i) {
                        myList.push(results[i])
                    }
-                   console.log(myList)
+                   console.log('mylist', myList)
                }
-                 
-                   console.log(e.target.index)
+               updateList()
+                         console.log(e.target.index)
+            }
+
+
+            const updateList = () => {
+                    const newBook = myList[myList.length-1]
+                    console.log('new book', newBook)
+                    const div = document.createElement('div')
+                    div.setAttribute('class', 'list-group-item border-0')
+                    div.innerHTML = ` 
+                    <div class="accordion">
+                        <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            ${newBook.title}
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body d-flex justify-content-start">
+                            <img src="" alt="">
+                            <div class="d-flex flex-column justify-content-center mt-5 ms-2">
+                            <div class="mb-1"><a href="">Author</a></div>
+                            <div><a href="">Publisher</a></div>
+                            <div class="mt-3"><a href="">Preview</a></div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                </div>`
+                
+                sideList.appendChild(div)
+                
+
             }
             
              myBooks.forEach((el, index) => {
@@ -101,11 +133,10 @@ const fetchBooks = () => {
                  let count = 0;
                  count ++
                  el.index = index
-                 
                 })
-   
         })}
+
 }
 
-//event listeners
+//event listeners 
 searchBtn.addEventListener('click', fetchBooks)
