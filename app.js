@@ -4,8 +4,9 @@ const search = document.querySelector('#search');
 const searchBtn = document.querySelector('#search-btn');
 const searchResults = document.querySelector('#search-results');
 const sideList = document.querySelector('#my-list');
+let dt = 0;
 const myList = [];
-let results = []
+let results = [];
 
 
 
@@ -39,7 +40,12 @@ const fetchBooks = () => {
             
             for (let i = 0; i < results.length; i++) {
                 let currItem = results[i];
-                console.log(currItem)
+
+                //create url for preview viewer
+                const isbn = currItem.industryIdentifiers.identifier[1]
+                const previewURL = `book.html?isbn=`+isbn
+                console.log('preview', previewURL)
+
                 //create li
               const li = document.createElement('li');
               li.setAttribute('class', 'col-8 list-group-item')
@@ -61,8 +67,7 @@ const fetchBooks = () => {
                                         Actions
                                         </button>
                                         <ul class="dropdown-menu">
-                                        <li><a class="preview dropdown-item" href="${currItem.previewLink}">Preview</a></li>
-                                        <li><a class="wish dropdown-item" href="#">Add to wish list</a></li>
+                                        <li><a class="preview dropdown-item" target="_blank" href="${previewURL}">Preview</a></li>
                                         <li><a class="my-books dropdown-item" href="#">Add to My Books</a></li>
                                         </ul>
                                         </div>
@@ -98,6 +103,7 @@ const fetchBooks = () => {
 
 
             const updateList = () => {
+                    dt++
                     const newBook = myList[myList.length-1]
                     console.log('new book', newBook)
                     const div = document.createElement('div')
@@ -106,17 +112,17 @@ const fetchBooks = () => {
                     <div class="accordion">
                         <div class="accordion-item">
                         <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${dt}" aria-expanded="false" aria-controls="collapse-${dt}">
                             ${newBook.title}
                             </button>
                         </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div id="collapse-${dt}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                             <div class="accordion-body d-flex justify-content-start">
-                            <img src="" alt="">
+                            <img src="${newBook.imageLinks.thumbnail}">
                             <div class="d-flex flex-column justify-content-center mt-5 ms-2">
-                            <div class="mb-1"><a href="">Author</a></div>
-                            <div><a href="">Publisher</a></div>
-                            <div class="mt-3"><a href="">Preview</a></div>
+                            <div class="mb-1">${newBook.authors}</div>
+                            <div>${newBook.publishedDate.toLocaleString('en-US',)}</div>
+                            <div class="mt-3"><a href="book.html">Preview</a></div>
                             </div>
                             </div>
                         </div>
@@ -124,6 +130,9 @@ const fetchBooks = () => {
                 </div>`
                 
                 sideList.appendChild(div)
+
+                //store new array in local storage
+                localStorage.setItem('myList', JSON.stringify(myList))
                 
 
             }
