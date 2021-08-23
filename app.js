@@ -22,9 +22,9 @@ if (storedList) {
 
 //function for clear list button
 function clearList() {
-    sideList.innerHTML = '';
-    myList = [];
-    localStorage.clear();
+  sideList.innerHTML = "";
+  myList = [];
+  localStorage.clear();
 }
 
 //updates my list and local storage //creates book items in DOM
@@ -46,7 +46,7 @@ function updateList() {
         </h2>
         <div id="collapse-${dt}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
             <div class="accordion-body d-flex justify-content-start">
-            <img src="${newBook.imageLinks.thumbnail}">
+            <a target="_blank" href="${newBook.infoLink}"><img src="${newBook.imageLinks.thumbnail}"></a>
             <div class="d-flex flex-column justify-content-center mt-5 ms-2">
             <div class="mb-1">${newBook.authors}</div>
             <div>${newBook.publishedDate.toLocaleString("en-US")}</div>
@@ -166,4 +166,4 @@ const fetchBooks = () => {
 
 //event listeners
 searchBtn.addEventListener("click", fetchBooks);
-clearListBtn.addEventListener("click", clearList)
+clearListBtn.addEventListener("click", clearList);
